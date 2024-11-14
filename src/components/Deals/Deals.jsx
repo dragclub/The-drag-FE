@@ -137,7 +137,7 @@ const Deals =  () => {
               contentStyle={{ marginBottom: "5vh" }}
               trigger={
                 <div className="deal-h">
-                  <p>Post a Deal</p>
+                  <p>Post Deal</p>
                 </div>
               }
               modal

@@ -109,6 +109,7 @@ body {
 .search-icon{
     width: 2rem;
     height: 2rem;
+   color: #FAFAFA;
     opacity: 100%;
 }
 .search form {
