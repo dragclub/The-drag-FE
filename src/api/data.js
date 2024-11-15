@@ -1,27 +1,21 @@
+import axios from 'axios';
+
 export const fetchUserData = async (page = 1, limit = 9) => {
   try {
-    
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}v1/apis?page=${page}&limit=${limit}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then(res=>res.json());
-console.log(response);
-    if (!response.data) {
-      throw new Error(`Error: ${response.status}`);
+    console.log(page, limit);
+    const res = await axios.get(`${process.env.REACT_APP_BASE_URL}v1/apis?page=${page}&limit=${limit}`);
+    if (res.status === 200) {
+      console.log('ressss', res.data);
+      return res.data;
+    } else {
+      return null;
     }
-
-    
-    return response;
   } catch (error) {
     console.error("Error fetching user data:", error);
     return null;
   }
 };
+
 
 export const fetchDealsData = async ({
   page = 1,
