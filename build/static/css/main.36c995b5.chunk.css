@@ -32,6 +32,24 @@ body {
   }
  
 
+  *{
+    --w:100vw;
+    --h:100vh;
+    font-family: 'poppins';
+}
+.warning {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+.close1{
+    position: absolute;
+    top:20px;
+    right: 20px;
+    background-color: #fafafa;
+    cursor: pointer;
+    font-size: xx-large;
+}
 @media screen and (min-width:800px){
     .filter-popup{
         color:rgba(64, 1, 1, 1);
