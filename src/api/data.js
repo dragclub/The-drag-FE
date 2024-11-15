@@ -9,14 +9,14 @@ export const fetchUserData = async (page = 1, limit = 9) => {
           "Content-Type": "application/json",
         },
       }
-    );
-
-    if (!response.ok) {
+    ).then(res=>res.json());
+console.log(response);
+    if (!response.data) {
       throw new Error(`Error: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    
+    return response;
   } catch (error) {
     console.error("Error fetching user data:", error);
     return null;
@@ -25,7 +25,7 @@ export const fetchUserData = async (page = 1, limit = 9) => {
 
 export const fetchDealsData = async ({
   page = 1,
-  limit = 1,
+  limit = 10,
   dealType = null,
   companyName = null,
 }) => {

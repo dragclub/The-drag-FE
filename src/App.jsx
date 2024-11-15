@@ -12,6 +12,7 @@ function App() {
 
   return (
     <div className={`container ${isblur ? "background" : ""}`}>
+      {console.log(`${process.env.REACT_APP_BASE_URL}`)}
       <BrowserRouter>
         <Navbar SetBlur={SetBlur} />
 
