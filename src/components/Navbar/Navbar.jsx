@@ -53,11 +53,7 @@ const Navbar = ({ SetBlur }) => {
       <div className="navbar">
         <div className="nav">
           <div className="nav-links">
-            <Link
-              to="/"
-
-              className="nav-logo-container"
-            >
+            <Link to="/" className="nav-logo-container">
               <img src={logo} alt="Logo" className="nav-logo" />
             </Link>
             <Link to="/creators" className="nav-link">
@@ -120,7 +116,7 @@ const Navbar = ({ SetBlur }) => {
               onOpen={() => SetBlur(true)}
               onClose={() => SetBlur(false)}
             >
-              {(close) => <Signup setResponse={fetchdata} />}
+              {(close) => <Signup setResponse={fetchdata} close={close} />}
             </Popup>
           ) : (
             <button type="button" className="nav-btn" onClick={logout}>

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import "./Signup.css"
-import eye from "../../assets/eye.svg";
-import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
-export const Signup = ({ setResponse }) => {
+
+import { sendOTP } from '../../api/data';
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+export const Signup = ({ setResponse, close }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [name, setname] = useState("");
-  const [state, setstate] = useState("signup");
-  const [visible, setvisible] = useState(false);
+  // const [state, setstate] = useState("signup");
+  // const [visible, setvisible] = useState(false);
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,7 +17,8 @@ export const Signup = ({ setResponse }) => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOTP] = useState("");
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
@@ -62,22 +65,22 @@ export const Signup = ({ setResponse }) => {
     }
     return "";
   };
-  useEffect(() => {
-    const password = document.getElementById("password");
-    if (visible) {
-      password.setAttribute("type", "text");
-    } else {
-      password.setAttribute("type", "password");
-    }
-  }, [visible]);
+  // useEffect(() => {
+  //   const password = document.getElementById("password");
+  //   if (visible) {
+  //     password.setAttribute("type", "text");
+  //   } else {
+  //     password.setAttribute("type", "password");
+  //   }
+  // }, [visible]);
   // let name="";
   // let email="";
   // let password="";
 
   const handlelogin = async () => {
     const formdata = {
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value,
+      email: document.getElementById("email-log").value,
+      password: document.getElementById("password-log").value,
     };
 
     await fetch(`${process.env.REACT_APP_BASE_URL}v1/apis/login`, {
@@ -117,8 +120,12 @@ export const Signup = ({ setResponse }) => {
     setErrorMessage(error);
     setIsValid(!error);
   };
+  const OTPchangeHandler = (e) => {
+    const OTP = e.target.value;
+    setOTP(OTP);
+  };
   const handlePassword = (e) => {
-    if (e.target.value.length == 0 && !clicked) {
+    if (e.target.value.length === 0 && !clicked) {
       alert(`Password Should include:
         * Password must be at least 8 characters long.
         * Password must contain at least one special character.
@@ -137,8 +144,9 @@ export const Signup = ({ setResponse }) => {
         email,
         password,
         isChecked,
+        otp,
       };
-      console.log("formdata",formdata)
+      console.log("formdata", formdata);
       await fetch(`${process.env.REACT_APP_BASE_URL}v1/apis/signup`, {
         method: "POST",
         headers: {
@@ -150,15 +158,18 @@ export const Signup = ({ setResponse }) => {
       })
         .then((res) => res.json())
         .then((res) => {
+          console.log("res", res);
           if (res.success) {
             sessionStorage.setItem("State", "login");
             setResponse(res.iscreator, sessionStorage.getItem("State"));
             sessionStorage.setItem("creator", res.iscreator);
             sessionStorage.setItem("email", res.email);
-            alert("Sign Up Sucessfull!");
+            toast.success("Sign Up Sucessfull!");
+            //alert("Sign Up Sucessfull!");
             window.location.reload();
           } else {
-            alert(res.error);
+            toast.error(res.message);
+            //alert(res.message);
           }
         });
     } else if (isValidEmail) {
@@ -168,6 +179,16 @@ export const Signup = ({ setResponse }) => {
     } else {
       alert(`Password and Email are Invalid`);
     }
+  };
+  const OTPHandler = async (e) => {
+    e.preventDefault();
+    try {
+      if (email === "") {
+        toast.error("Enter Email");
+        return;
+      }
+      await sendOTP({ email });
+    } catch (error) {}
   };
   return (
     <section className={`auth-wrapper ${isLogin ? "auth-active" : ""}`}>
@@ -187,7 +208,7 @@ export const Signup = ({ setResponse }) => {
             placeholder="Email address"
             type="email"
             name="email"
-            id="email"
+            id="email-sign"
             value={email}
             onInput={(e) => {
               handleEmail(e);
@@ -206,7 +227,7 @@ export const Signup = ({ setResponse }) => {
             <input
               type="password"
               placeholder="Password"
-              id="password"
+              id="password-sign"
               value={password}
               onClick={(e) => handlePassword(e)}
               onChange={handleChange}
@@ -233,7 +254,19 @@ export const Signup = ({ setResponse }) => {
           >
             {isValid ? "Password is valid" : errorMessage}
           </div>
-
+          <div className="OTP">
+            <input
+              type="text"
+              name=""
+              id=""
+              className="OTP-in"
+              placeholder="Enter OTP"
+              onChange={OTPchangeHandler}
+            />
+            <button className="OTP-btn" onClick={OTPHandler}>
+              Get
+            </button>
+          </div>
           <div className="auth-checkbox">
             <input
               type="checkbox"
@@ -259,7 +292,7 @@ export const Signup = ({ setResponse }) => {
             required
             type="email"
             name="email"
-            id="email"
+            id="email-log"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -268,10 +301,13 @@ export const Signup = ({ setResponse }) => {
             placeholder="Password"
             required
             name="password"
-            id="password"
+            id="password-log"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Link to={"/forgot"} className="forgot" onClick={() => close()}>
+            Forgot password
+          </Link>
           {/* <a href="#">Forgot password?</a> */}
           <input type="submit" value="Login" />
         </form>

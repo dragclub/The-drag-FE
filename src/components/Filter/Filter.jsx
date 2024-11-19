@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import { IoClose } from "react-icons/io5";
 dotenv.config();
 
-const Filter = ({ helper, loading, close }) => {
+const Filter = ({ helper, loading, close, setSelectedFilter }) => {
   const [sort, setSort] = useState("des");
   const [type, setType] = useState("");
   const [location, setLocation] = useState("");
@@ -27,6 +27,7 @@ const Filter = ({ helper, loading, close }) => {
       platform,
     };
     helper(data);
+    //setSelectedFilter(platform);
   };
 
   const handleSubmit = (e) => {
@@ -35,7 +36,7 @@ const Filter = ({ helper, loading, close }) => {
       filter();
       close();
     } else {
-      setShowWarning(true); 
+      setShowWarning(true);
     }
   };
 
@@ -74,7 +75,7 @@ const Filter = ({ helper, loading, close }) => {
           >
             <option value="">Select an Option</option>
             {categories.map((ele, idx) => (
-              <option  key={idx} value={ele}>
+              <option key={idx} value={ele}>
                 {ele}
               </option>
             ))}

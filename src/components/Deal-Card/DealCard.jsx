@@ -1,41 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import "./DealCard.css";
 import Contact from "../Contact/Contact";
 import DealDetails from "../DealDetails/DealDetails";
+import ContactForm from "../Contact/ContactForm";
 
-const DealCard = ({prop}) => {
-    const { followers, creatorType, dealDescription } = prop;
-    const iscreator = sessionStorage.getItem("creator")||"false"
-    const follk = Math.floor(followers / 1000);
-    const maxLength = 60;
-    const max= 30
-     const trimDesc =
-       dealDescription.length > maxLength
-         ? dealDescription.slice(0, maxLength) + "..."
-         : dealDescription;
-          const trimcrea =
-            creatorType.length > max
-              ? creatorType.slice(0, max) + "..."
-              : creatorType;
-    const handleDelete = async (e) => {
-      await fetch(`${process.env.REACT_APP_BASE_URL}v1/apis/deals`, {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: prop.email,
-          id: prop._id,
-        }),
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          alert(res.message);
-          window.location.reload();
-        });
-    };
+const DealCard = ({ prop, setIsBlurred }) => {
+
+  const { followers, creatorType, dealDescription } = prop;
+  const iscreator = sessionStorage.getItem("creator") || "false";
+  const follk = Math.floor(followers / 1000);
+  const maxLength = 60;
+  const max = 30;
+  const trimDesc =
+    dealDescription.length > maxLength
+      ? dealDescription.slice(0, maxLength) + "..."
+      : dealDescription;
+  const trimcrea =
+    creatorType.length > max ? creatorType.slice(0, max) + "..." : creatorType;
+  const handleDelete = async (e) => {
+    await fetch(`${process.env.REACT_APP_BASE_URL}v1/apis/deals`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: prop.email,
+        id: prop._id,
+      }),
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        alert(res.message);
+        window.location.reload();
+      });
+  };
   return (
     <div className="deal-card">
       <h2>{prop.companyName}</h2>
@@ -77,31 +77,60 @@ const DealCard = ({prop}) => {
             Delete
           </button>
         ) : (
-          iscreator ==="true" ? (
+          // iscreator ==="true" ? (
+          // <Popup
+          //   trigger={<button className="apply-button">Apply</button>}
+          //   modal
+          // >
+          //   {(close) => {
+          //     return (
+          //       <Contact
+          //         close={close}
+          //         email={prop.email}
+          //         name={prop.companyName}
+          //       />
+          //     );
+          //   }}
+          // </Popup>):<></>
           <Popup
             trigger={<button className="apply-button">Apply</button>}
             modal
+            onOpen={() => setIsBlurred(true)}
+            onClose={() => setIsBlurred(false)}
           >
             {(close) => {
-              return (
-                <Contact
+              return iscreator === "true" ? (
+                <ContactForm
                   close={close}
                   email={prop.email}
                   name={prop.companyName}
                 />
+              ) : (
+                <div className="modal-content">
+                  <h2>Please login and become a creator to apply</h2>
+                  <button className="modal-content-btn" onClick={close}>
+                    Close
+                  </button>
+                </div>
               );
             }}
-          </Popup>):<></>
+          </Popup>
         )}
 
         <Popup
           trigger={<button className="details-button">Details</button>}
           modal
+          onOpen={() => setIsBlurred(true)}
+          onClose={() => setIsBlurred(false)}
         >
           {(close) => {
             return (
               <DealDetails
-                props={{ ...prop, followers: follk ? `${follk}K` : followers ,iscreator}}
+                props={{
+                  ...prop,
+                  followers: follk ? `${follk}K` : followers,
+                  iscreator,
+                }}
               />
             );
           }}

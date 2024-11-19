@@ -8,13 +8,7 @@
   font-family: "Poppins", sans-serif;
 }
 
-.eye {
-  position: absolute;
-  right: 0.75rem;
-  top: 20px;
-  z-index: 10;
-  cursor: pointer;
-}
+
 
 .password {
   position: relative;
@@ -33,6 +27,20 @@
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: all 0.3s ease;
+}
+.OTP{
+  display: flex;
+
+}
+.OTP-btn{
+  width: 30%;
+  border-radius: 10px;
+ font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #fafafa;
+  outline: none;
+  border: none;
 }
 
 .auth-form {
@@ -68,7 +76,7 @@
 }
 
 .auth-wrapper.auth-active .auth-form.auth-login {
-  bottom: -15%;
+  bottom: -10%;
   border-radius: 35%;
   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -79,7 +87,7 @@
 .auth-form.auth-login {
   position: absolute;
   left: 50%;
-  bottom: -86%;
+  bottom: -90%;
   transform: translateX(-50%);
   width: calc(100% + 220px);
   padding: 20px 140px;
@@ -88,7 +96,9 @@
   background: #fff;
   transition: all 0.6s ease;
 }
-
+.forgot{
+  text-align: right;
+}
 .auth-wrapper form {
   display: flex;
   flex-direction: column;
@@ -183,6 +193,14 @@
     right: 0.5rem;
     top: 15px;
   }
+  .OTP{
+    flex-direction: column;
+    row-gap: 2px;
+  }
+  .OTP-btn{
+    width: 100%;
+    height: 40px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -216,6 +234,14 @@
   .eye {
     right: 0.25rem;
     top: 10px;
+  }
+  .OTP{
+    flex-direction: column;
+    row-gap: 2px;
+  }
+  .OTP-btn{
+    width: 100%;
+    height: 40px;
   }
 }
 

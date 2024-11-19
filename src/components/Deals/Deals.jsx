@@ -52,10 +52,20 @@ const Deals =  () => {
 
     const handleNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
     };
 
     const handlePrevPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
     };
 
     useEffect(() => {
@@ -161,7 +171,13 @@ const Deals =  () => {
             <div className="creator-list">
               {deals && deals.length > 0 ? (
                 deals.map((item, idx) => {
-                  return <DealCard key={idx} prop={item} />;
+                  return (
+                    <DealCard
+                      key={idx}
+                      prop={item}
+                      setIsBlurred={setIsBlurred}
+                    />
+                  );
                 })
               ) : (
                 <p

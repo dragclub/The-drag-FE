@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import DragContext from "./Context/Dragcontext.js";
 import dotenv from "dotenv";
+import { Toaster } from "react-hot-toast";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ root.render(
   <React.StrictMode>
     <DragContext.Provider value={{}}>
       <App />
+      <Toaster />
     </DragContext.Provider>
   </React.StrictMode>
 );

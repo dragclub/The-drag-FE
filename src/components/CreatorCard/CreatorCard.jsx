@@ -10,8 +10,9 @@ import {
   FaLinkedin,
   FaTwitterSquare,
 } from "react-icons/fa";
+import ContactForm from "../Contact/ContactForm";
 
-const CreatorCard = ({ props }) => {
+const CreatorCard = ({ props, selectedFilter, setIsBlurred }) => {
   const {
     name,
     image,
@@ -31,7 +32,11 @@ const CreatorCard = ({ props }) => {
   const totalsum =
     instacount + facebookcount + youtubecount + twittercount + linkedincount;
   const totalk = Math.floor(totalsum / 1000);
-
+  const instasum = Math.floor(instacount / 1000);
+  const facebooksum = Math.floor(facebookcount / 1000);
+  const youtubesum = Math.floor(youtubecount / 1000);
+  const twittersum = Math.floor(twittercount / 1000);
+  const linkedinsum = Math.floor(linkedincount / 1000);
   return (
     <div className="creator-card">
       <img src={image} alt={name} className="creator-image" />
@@ -40,7 +45,29 @@ const CreatorCard = ({ props }) => {
           <div className="creator-total">
             <h3 className="creator-name">{name}</h3>
             <p className="total-followers">
-              Total Followers {totalk ? `${totalk}K` : totalsum}
+              {selectedFilter === "all" || selectedFilter === ""
+                ? `Total Followers ${totalk ? `${totalk}K` : totalsum}`
+                : selectedFilter === "insta"
+                ? `Instagram Followers ${
+                    instasum ? `${instasum}K` : instacount
+                  }`
+                : selectedFilter === "linkedin"
+                ? `LinkedIn Followers ${
+                    linkedinsum ? `${linkedinsum}K` : linkedincount
+                  }`
+                : selectedFilter === "facebook"
+                ? `Facebook Followers ${
+                    facebooksum ? `${facebooksum}K` : facebookcount
+                  }`
+                : selectedFilter === "twitter"
+                ? `Twitter Followers ${
+                    twittersum ? `${twittersum}K` : twittercount
+                  }`
+                : selectedFilter === "youtube"
+                ? `YouTube Followers ${
+                    youtubesum ? `${youtubesum}K` : youtubecount
+                  }`
+                : null}
             </p>
           </div>
           {/* <div className="highest">
@@ -89,9 +116,13 @@ const CreatorCard = ({ props }) => {
             <Popup
               trigger={<button className="contact-btn">Contact</button>}
               modal
+              onOpen={() => setIsBlurred(true)}
+              onClose={() => setIsBlurred(false)}
               position="top center"
             >
-              {(close) => <Contact email={email} name={name} close={close} />}
+              {(close) => (
+                <ContactForm email={email} name={name} close={close} />
+              )}
             </Popup>
           )}
         </div>

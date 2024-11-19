@@ -1,0 +1,124 @@
+.contact-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          width: 600px;
+        height: 580px;
+        
+       
+        display: flex;
+        flex-direction: column;
+        
+        
+        position: relative;
+}
+
+.email {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.email-main {
+  font-weight: bold;
+  color: #333;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.contact-input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.contact-input:focus,
+textarea:focus {
+  border-color: #007bff;
+}
+
+textarea {
+  resize: none;
+}
+
+.attachment .file-label {
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  background-color: #fdfdfd;
+  color: #777;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.attachment .file-label:hover {
+  background-color: #f0f8ff;
+  color: #007bff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+#email-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background-color: #400101;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#email-btn:hover {
+  background-color: #200000;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+@media screen and (max-width: 700px) {
+    .contact-container {
+        width: 90vw;
+        height: 85vh;
+        
+        display: flex;
+        flex-direction: column;
+        grid-gap: 10px;
+        gap: 10px;
+        position: relative;
+    }
+}

@@ -124,7 +124,7 @@ const Login = ({ setResponse }) => {
         setIsValid(!error);
     };
     const handlePassword = (e) => {
-        if (e.target.value.length == 0 && (!clicked)) {
+        if (e.target.value.length === 0 && (!clicked)) {
             alert(`Password Should include:
         * Password must be at least 8 characters long.
         * Password must contain at least one special character.

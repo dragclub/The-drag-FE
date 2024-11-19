@@ -2,6 +2,7 @@ import React from 'react'
 import './DealDetails.css'
 import Contact from '../Contact/Contact';
 import Popup from 'reactjs-popup';
+import ContactForm from '../Contact/ContactForm';
 
 const DealDetails = ({props}) => {
     const {companyName,socialMedia,dealDescription,creatorType,dealType,followers,email,iscreator}=props;
@@ -74,7 +75,7 @@ const DealDetails = ({props}) => {
         <Popup trigger={<button className="apply-button">Apply</button>} modal>
           {(close) => {
             return (
-              <Contact
+              <ContactForm
                 close={close}
                 email={email}
                 name={companyName}

@@ -26,6 +26,7 @@ const Promotions = () => {
   const [isLoading, setIsloading] = useState(false);
   const [isBlurred, setIsBlurred] = useState(false);
   const [filter, setFilter] = useState(null);
+  const [selectedFilter,setSelectedFilter] = useState("all")
   // Debounce the fetch function to prevent excessive API calls
   const debouncedFetchData = useCallback(
     debounce(async (searchTerm, page, filterdata) => {
@@ -83,30 +84,44 @@ const Promotions = () => {
   // Handle filter data
   const fetchDataWithFilter = (filteredData) => {
     setFilter(filteredData);
+    console.log("filteredData",filteredData);
+    setSelectedFilter(filteredData.platform);
     debouncedFetchData(search, 1, filteredData);
     setCurrentPage(1);
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      
       search === ""
         ? loadUserData(currentPage + 1)
         : debouncedFetchData(search, currentPage + 1, filter);
     }
+    setCurrentPage(currentPage + 1);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
-
+    
     search === ""
       ? loadUserData(currentPage - 1)
       : debouncedFetchData(search, currentPage - 1, filter);
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
     <div
-      className={`promotions-container ${isBlurred ? "blur-background" : ""}`}
+      className={`promotions-container ${isBlurred ? "blur-background" : ""} `}
     >
       <div className="header">
         <div className="h-deal">
@@ -114,7 +129,7 @@ const Promotions = () => {
           <Popup
             contentStyle={{ marginBottom: "5vh" }}
             trigger={
-              <div className="deal">
+              <div className="deal font-black">
                 <p>Post a Deal</p>
               </div>
             }
@@ -170,6 +185,7 @@ const Promotions = () => {
                   helper={fetchDataWithFilter}
                   loading={setIsloading}
                   close={close}
+                  setSelectedFilter={setSelectedFilter}
                 />
               )}
             </Popup>
@@ -221,6 +237,8 @@ const Promotions = () => {
                       <CreatorCard
                         key={`${item.id}.${idx}`}
                         props={creatorObj}
+                        selectedFilter={selectedFilter}
+                        setIsBlurred={setIsBlurred}
                       />
                     );
                   } else {

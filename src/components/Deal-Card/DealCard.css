@@ -71,3 +71,21 @@
   margin-top: 0;
   color: #333;
 }
+.modal-content{
+  background-color: #fafafa;
+  padding: 10px 20px;
+  row-gap: 20px;
+  border: 1px solid #400101;
+  border-radius: 10px;
+}
+.modal-content-btn{
+  background-color: #400101;
+      padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: auto;
+    margin-top: 10px;
+}

@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export const fetchUserData = async (page = 1, limit = 9) => {
   try {
     
@@ -10,7 +12,7 @@ export const fetchUserData = async (page = 1, limit = 9) => {
         },
       }
     ).then(res=>res.json());
-console.log(response);
+    console.log(response);
     if (!response.data) {
       throw new Error(`Error: ${response.status}`);
     }
@@ -113,6 +115,95 @@ export const fetchSearchAndFilterData = async ({
     return null;
   }
 };
+export const sendOTP = async({email})=>{
+  try{
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}v1/apis/sendOTP`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          email:email
+        }),
+      }
+    );
+    console.log("respnse",response)
+     if (!response.ok) {
+      
+       throw new Error(`Error: ${response.status}`);
+     }
+     toast.success("OTP Sent successfully");
+  }catch(error){
+    console.log(error);
+     toast.error("Failed to send OTP");
+  }
+}
+export const getresettoken = async ({ email, SetEmailSent, setLoading }) => {
+   setLoading(true);
+  try {
+   
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}v1/apis/reset-password-token`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    toast.success("Email Sent successfully");
+    SetEmailSent(true);
 
-
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to Email");
+  }
+      setLoading(false);
+};
+export const resetPassword = async ({
+  password,
+  confirmPassword,
+  token,
+  navigate,
+  setLoading,
+}) => {
+  setLoading(true);
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}v1/apis/reset-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          password: password,
+          confirmPassword: confirmPassword,
+          token: token,
+        }),
+      }
+    ).then((res) => res.json());
+    console.log("response of update", response);
+    if (!response.success) {
+      throw new Error(`Error: ${response.message}`);
+    }
+    toast.success("Password Changed Successfully");
+    navigate("/");
+  } catch (error) {
+    console.log("unable to Reset password", error);
+    toast.error(error.message);
+  }
+   setLoading(false);
+};
 
