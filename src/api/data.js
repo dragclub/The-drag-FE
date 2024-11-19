@@ -1,5 +1,4 @@
-import toast from "react-hot-toast";
-
+import toast from 'react-hot-toast'
 export const fetchUserData = async (page = 1, limit = 9) => {
   try {
     
@@ -12,7 +11,7 @@ export const fetchUserData = async (page = 1, limit = 9) => {
         },
       }
     ).then(res=>res.json());
-    console.log(response);
+console.log(response);
     if (!response.data) {
       throw new Error(`Error: ${response.status}`);
     }
@@ -24,7 +23,6 @@ export const fetchUserData = async (page = 1, limit = 9) => {
     return null;
   }
 };
-
 export const fetchDealsData = async ({
   page = 1,
   limit = 10,

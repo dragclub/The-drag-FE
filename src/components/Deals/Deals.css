@@ -116,6 +116,7 @@ body {
     width: 2rem;
     height: 2rem;
     opacity: 100%;
+    color: #fafafa;
 }
 .search form {
     display: flex;

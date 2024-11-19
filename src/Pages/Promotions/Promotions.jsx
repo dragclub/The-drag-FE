@@ -64,8 +64,11 @@ const Promotions = () => {
   const loadUserData = async (page = 1) => {
     setIsloading(true);
     try {
+      console.log(page);
       const result = await fetchUserData(page);
+      console.log('result',result);
       if (result) {
+        
         setData(result.data);
         setTotalPages(result.totalPages);
       }
