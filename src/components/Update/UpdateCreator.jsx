@@ -70,76 +70,65 @@ const UpdateCreator = ({ close }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (croppedImage) {
-      if (isValid) {
-        document
-          .getElementById("register-btn")
-          .setAttribute("disabled", "true");
+    if (isValid) {
+      document.getElementById("register-btn").setAttribute("disabled", "true");
 
-        const data = {
-          type: document.getElementById("type").value,
-          userName: document.getElementById("username").value,
-          location: document.getElementById("location").value,
-          phone: phone,
-          insta: document.getElementById("instaurl").value,
-          instacount: document.getElementById("instacount").value,
-          twitter: document.getElementById("twitterurl").value,
-          twittercount: document.getElementById("twittercount").value,
-          linkedin: document.getElementById("linkedinurl").value,
-          linkedincount: document.getElementById("linkedincount").value,
-          facebook: document.getElementById("facebookurl").value,
-          facebookcount: document.getElementById("facebookcount").value,
-          youtube: document.getElementById("youtubeurl").value,
-          youtubecount: document.getElementById("youtubecount").value,
-        };
+      const data = {
+        type: document.getElementById("type").value,
+        userName: document.getElementById("username").value,
+        location: document.getElementById("location").value,
+        phone: phone,
+        insta: document.getElementById("instaurl").value,
+        instacount: document.getElementById("instacount").value,
+        twitter: document.getElementById("twitterurl").value,
+        twittercount: document.getElementById("twittercount").value,
+        linkedin: document.getElementById("linkedinurl").value,
+        linkedincount: document.getElementById("linkedincount").value,
+        facebook: document.getElementById("facebookurl").value,
+        facebookcount: document.getElementById("facebookcount").value,
+        youtube: document.getElementById("youtubeurl").value,
+        youtubecount: document.getElementById("youtubecount").value,
+      };
 
-        const formData = new FormData();
+      const formData = new FormData();
 
-        for (let key in data) {
-          formData.append(key, data[key]);
-        }
+      for (let key in data) {
+        formData.append(key, data[key]);
+      }
 
-        try {
-          const profileImageFile = await urlToFile(
-            croppedImage,
-            "profile-image.jpg",
-            "image/jpeg"
-          );
-          formData.append("profileImage", profileImageFile);
-
-          fetch(e.target.action, {
-            method: "post",
-            body: formData,
-            credentials: "include",
-          })
-            .then((res) => res.json())
-            .then((res) => {
-              document
-                .getElementById("register-btn")
-                .removeAttribute("disabled");
-              if (!res.success) {
-                alert(res.error);
-                 document
-                   .getElementById("update-btn")
-                   .removeAttribute("disabled");
-              } else {
-                               sessionStorage.setItem("creator", true);
-                               alert(res.message);
-                // window.location.reload();
-                close();
-              }
-            });
-        } catch (error) {
-          console.error("Error converting blob URL to file:", error);
-          alert("Failed to upload image.");
-        }
-      } else {
-        alert(`Mobile Number is Invalid or Image Size Exceeds 1MB`);
+      try {
+        if(croppedImage){
+        const profileImageFile = await urlToFile(
+          croppedImage,
+          "profile-image.jpg",
+          "image/jpeg"
+        );
+        formData.append("profileImage", profileImageFile);
+      }
+        fetch(e.target.action, {
+          method: "post",
+          body: formData,
+          credentials: "include",
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            document.getElementById("register-btn").removeAttribute("disabled");
+            if (!res.success) {
+              alert(res.error);
+              document.getElementById("update-btn").removeAttribute("disabled");
+            } else {
+              sessionStorage.setItem("creator", true);
+              alert(res.message);
+              // window.location.reload();
+              close();
+            }
+          });
+      } catch (error) {
+        console.error("Error converting blob URL to file:", error);
+        alert("Failed to upload image.");
       }
     } else {
-      if (isValid) {
-        alert("Please upload an image.");
-      } else {
+      if (!isValid) {
         alert("Mobile Number is Invalid");
       }
     }
