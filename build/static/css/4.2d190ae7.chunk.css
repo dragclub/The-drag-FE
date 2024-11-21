@@ -119,7 +119,7 @@ body {
   padding: 0 10px;
 }
 .search input::placeholder {
-  color: #fafafa;
+  color: #ffffff;
 }
 .filter {
   display: flex;
