@@ -3,7 +3,7 @@ import "./Signup.css"
 
 import { sendOTP } from '../../api/data';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 export const Signup = ({ setResponse, close }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [name, setname] = useState("");
@@ -17,6 +17,8 @@ export const Signup = ({ setResponse, close }) => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+    const navigate = useNavigate();
+
   // const [showPassword, setShowPassword] = useState(false);
   const [otp, setOTP] = useState("");
   const handleCheckboxChange = () => {
@@ -106,6 +108,7 @@ export const Signup = ({ setResponse, close }) => {
           setResponse(res.iscreator, sessionStorage.getItem("State"));
           sessionStorage.setItem("creator", res.iscreator);
           sessionStorage.setItem("email", res.email);
+          navigate("/");
           window.location.reload();
         } else {
           alert(res.error);

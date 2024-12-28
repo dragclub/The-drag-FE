@@ -5,6 +5,8 @@ import Footer from "./components/Footer/Footer.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ForgotPassword } from "./Pages/ForgotPassword.jsx";
 import { UpdatePassword } from "./Pages/UpdatePassword.jsx";
+import DealDetails from "./components/DealDetails/DealDetails.jsx";
+import DealPage from "./components/DealPage/DealPage.jsx";
 
 
 const Promotions = lazy(() => import("./Pages/Promotions/Promotions.jsx"));
@@ -33,9 +35,9 @@ function App() {
               element={<Promotions SetBlur={SetBlur} />}
             />
             <Route path="/deals" element={<Deals SetBlur={SetBlur} />} />
+            <Route path="/deals/:id" element={<DealPage/>} />
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/update-password/:id" element={<UpdatePassword />} />
-         
           </Routes>
         </Suspense>
 

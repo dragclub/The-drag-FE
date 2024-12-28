@@ -4,6 +4,7 @@ import "./DealCard.css";
 import Contact from "../Contact/Contact";
 import DealDetails from "../DealDetails/DealDetails";
 import ContactForm from "../Contact/ContactForm";
+import { GoShareAndroid } from "react-icons/go";
 
 const DealCard = ({ prop, setIsBlurred }) => {
 
@@ -35,10 +36,40 @@ const DealCard = ({ prop, setIsBlurred }) => {
         alert(res.message);
         window.location.reload();
       });
+
+      
+  };
+const currentUrl = window.location.href;
+
+// Check if the URL contains an ID (e.g., part of the URL or pathname)
+const urlContainsId = currentUrl
+  .split("/")
+  .some((segment) => segment.match(/[a-fA-F0-9]{24}/)); // Match a MongoDB ObjectId pattern
+
+// Construct the share URL based on whether the URL already contains an ID
+const shareUrl = urlContainsId ? currentUrl : `${currentUrl}/${prop._id}`;
+
+  // Handle share action
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: prop.companyName,
+          url: shareUrl,
+        })
+        .catch((error) => console.log("Error sharing:", error));
+    } else {
+      alert(`Share this link: ${shareUrl}`); // Fallback if Web Share API is not supported
+    }
   };
   return (
     <div className="deal-card">
-      <h2>{prop.companyName}</h2>
+      <h2>
+        {prop.companyName}
+        <span className="share">
+          <GoShareAndroid onClick={handleShare} className="svg" />
+        </span>
+      </h2>
       <p>{trimDesc}</p>
 
       <div className="deal-info">
